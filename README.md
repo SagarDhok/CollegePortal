@@ -16,5 +16,5 @@ A simple web-based system to manage students and their attendance, built using D
 
 - Django 4.1
 - SQLite
-- HTML + Bootstrap
+- HTML,CSS,Bootstrap,JavaScript
 - ReportLab (for PDF export)
