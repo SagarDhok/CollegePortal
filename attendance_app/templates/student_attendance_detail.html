@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}{{ student.name }}'s Attendance{% endblock %}
+
+{% block content %}
+<style>
+  .attendance-wrapper {
+    max-width: 900px;
+    margin: 60px auto;
+    background-color: #fdfefe;
+    padding: 40px 50px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+    border: 1px solid #dfe4ea;
+  }
+
+  .attendance-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    position: relative;
+  }
+
+  .attendance-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #3498db;
+    margin: 12px auto 0 auto;
+    border-radius: 2px;
+  }
+
+  .student-info {
+    font-size: 16px;
+    margin-bottom: 25px;
+  }
+
+  .student-info p {
+    margin: 6px 0;
+    line-height: 1.6;
+    color: #34495e;
+  }
+
+  .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 15px;
+  }
+
+  .attendance-table th {
+    background-color: #5dade2;
+    color: white;
+    padding: 14px;
+    border: 1px solid #ccd1d1;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .attendance-table td {
+    padding: 12px;
+    border: 1px solid #e5e8e8;
+    text-align: center;
+    transition: background-color 0.2s;
+  }
+
+  .attendance-table tr:nth-child(even) {
+    background-color: #f8f9f9;
+  }
+
+  .attendance-table tr:hover {
+    background-color: #ecf0f1;
+  }
+
+  .status-present {
+    color: #2ecc71;
+    font-weight: 600;
+  }
+
+  .status-absent {
+    color: #e74c3c;
+    font-weight: 600;
+  }
+
+  .no-records {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    font-style: italic;
+  }
+</style>
+
+<div class="attendance-wrapper">
+  <h2 class="attendance-title">📄 Attendance Report: {{ student.name }}</h2>
+
+  <div class="student-info">
+    <p><strong>Roll Number:</strong> {{ student.roll_number }}</p>
+    <p><strong>Class:</strong> {{ student.year }}</p>
+  </div>
+
+  <table class="attendance-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in attendance_records %}
+        <tr>
+          <td>{{ record.date }}</td>
+          <td>
+            {% if record.status == 'Present' %}
+              <span class="status-present">Present</span>
+            {% else %}
+              <span class="status-absent">Absent</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="2" class="no-records">No attendance records found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(to right, #f0f4ff, #e6f0ff);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .dashboard-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .dashboard-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 34px;
+    margin-bottom: 50px;
+    font-weight: 700;
+  }
+
+  .year-group {
+    background: linear-gradient(135deg, #fdfbfb, #ebedee);
+    padding: 30px;
+    margin-bottom: 45px;
+    border-radius: 16px;
+    border-left: 8px solid #4a90e2;
+    transition: transform 0.3s ease;
+  }
+
+  .year-group:hover {
+    transform: translateY(-5px);
+  }
+
+  .year-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #4a90e2;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dfe6f1;
+  }
+
+  .student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .student-table th,
+  .student-table td {
+    padding: 16px;
+    text-align: left;
+    font-size: 16px;
+    color: #444;
+  }
+
+  .student-table th {
+    background-color: #ecf3ff;
+    color: #2d3e50;
+    font-weight: 600;
+  }
+
+  .student-table tr:nth-child(even) {
+    background-color: #f9fcff;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-right: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-attendance {
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .btn-attendance:hover {
+    background-color: #217dbb;
+  }
+
+  .btn-delete {
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .btn-delete:hover {
+    background-color: #c0392b;
+  }
+
+  .btn-add {
+    background: linear-gradient(135deg, #28a745, #218838);
+    padding: 12px 20px;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+    text-decoration: none; /* 🔥 This line removes the underline */
+  }
+
+  .btn-add:hover {
+    transform: scale(1.05);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="dashboard-container">
+  <h2>📋 Student Attendance</h2>
+
+  {% for year_label, student_list in grouped_students.items %}
+  <div class="year-group">
+    <div class="year-title">📚 {{ year_label }}</div>
+
+    <table class="student-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in student_list %}
+        <tr>
+          <td>{{ student.name }}</td>
+          <td>{{ student.roll_number }}</td>
+          <td>
+            <a href="{% url 'mark_attendance' student.id %}" class="btn btn-attendance">✅ Mark</a>
+            <a href="{% url 'delete_student' student.id %}" class="btn btn-delete"
+               onclick="return confirm('Are you sure you want to delete this student?')">🗑️ Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No students found in this year.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="{% url 'add_student_with_class' year_label %}" class="btn-add">➕ Add Student to {{ year_label }}</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Add Student - {{ year }}{% endblock %}
+
+{% block content %}
+<style>
+  .form-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    font-family: Arial, sans-serif;
+  }
+
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #007bff;
+  }
+
+  .form-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  .form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .form-container button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .form-container button:hover {
+    background-color: #218838;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Add Student to {{ year }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="roll_number">Roll Number</label>
+    <input type="text" name="roll_number" id="roll_number" required>
+
+    <button type="submit">Add Student</button>
+  </form>
+</div>
+{% endblock %}

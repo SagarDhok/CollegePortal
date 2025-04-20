@@ -1,0 +1,10 @@
+python manage.py shell
+
+from attendance_app.models import Student
+
+
+Student.objects.filter(roll_number="105").delete()
+
+Student.objects.filter(name="ved dange").delete()
+
+Student.objects.all().delete()
